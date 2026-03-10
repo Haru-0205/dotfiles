@@ -10,7 +10,8 @@
 	 (typst-ts-mode . lsp)
 	 (python-mode . lsp)
 	 (elm-mode . lsp)
-	 (vue-mode . lsp))
+	 (vue-mode . lsp)
+	 (haskell-mode . lsp))
   :config
   (add-to-list 'lsp-language-id-configuration '(typst-ts-mode . "typst"))
   (lsp-register-client (make-lsp-client

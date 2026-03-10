@@ -8,7 +8,7 @@
         "Super Return" = "spawn wezterm";
         "Super F" = "spawn firefox";
         "Super R" = "spawn 'wofi --show drun'";
-				"Suprt Q" = "spawn wlogout";
+				"Super Q" = "spawn wlogout";
         # Control
         "Super+Shift E" = "exit";
         "Super C" = "close";
@@ -51,6 +51,11 @@
         "Super Right" = "send-layout-cmd riviertile 'main-location right'";
         "Super Left" = "send-layout-cmd riviertile 'main-location left'";
         "Super Down" = "send-layout-cmd riviertile 'main-location down'";
+        # Audio
+        "XF86AudioRaiseVolume" = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
+        "XF86AudioLowerVolume" = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+        "XF86AudioMute" = "wpctl set-volume @DEFAULT_AUDIO_SINK@ toggle";
+        "XF86AudioMicMute" = "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ toggle";
       };
     };
 		extraConfig = builtins.readFile ./init;

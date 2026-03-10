@@ -12,3 +12,7 @@
 ;; Line Number
 (global-display-line-numbers-mode)
 
+;; ring bell
+
+(setq ring-bell-function 'ignore)
+

@@ -1,3 +1,4 @@
+
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
@@ -20,13 +21,16 @@
     ./ime.nix
     ./river/enabler.nix
     ./syncthing.nix
+    ./exwm/enabler.nix
   ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_xanmod;
-
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModprobeConfig = "options kvm_intel nested=1";
+  
   networking.hostName = "nixos"; # Define your hostname.
 
   # Configure network proxy if necessary
@@ -54,7 +58,7 @@
     LC_TIME = "ja_JP.UTF-8";
   };
 
-  # Enable the X11 windowing system.
+  
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
@@ -63,6 +67,22 @@
 
 	services.gnome.at-spi2-core.enable = lib.mkForce false;
 
+  services.dbus.enable = true;
+  services.dbus.packages = [
+    # pkgs.pass-secret-service
+    pkgs.keepassxc
+  ];
+
+  #programs.gnupg.agent = {
+  #  enable = true;
+  #};
+  
+  services.fprintd = {
+    enable = true;
+    tod.enable = true;
+    tod.driver = pkgs.libfprint-2-tod1-elan;
+  };
+  
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -119,6 +139,7 @@
       "libvirtd"
       "wireshark"
 			"syncthing"
+      "kvm"
     ];
     packages = with pkgs; [
       kdePackages.kate
@@ -131,6 +152,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
+
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     #  wget
@@ -147,6 +169,17 @@
     wireshark
     linuxKernel.packages.linux_xanmod.evdi
     displaylink
+    freerdp
+    keepassxc
+    (pkgs.writeShellScriptBin "qemu-system-x86_64-uefi" ''
+      qemu-system-x86_64 \
+        -bios ${pkgs.OVMF.fd}/FV/OVMF.fd \
+        "$@"
+    '')
+   # pass
+   # pass-secret-service
+   # gnupg
+   # pinentry
   ];
 
   programs.wireshark = {
@@ -168,8 +201,19 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
-  # Enable Flake
+  nixpkgs.config.permittedInsecurePackages = [
+    "olm-3.2.16"
+  ];
 
+  swapDevices = [{
+    device = "/var/lib/swapfile";
+    size = 32 * 1024;
+  }];
+
+  zramSwap.enable = true;
+  
+  # Enable Flake
+  
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
@@ -194,6 +238,19 @@
 			xdg-desktop-portal-gtk
 		];
 	};
+
+  virtualisation = {
+    libvirtd = {
+      enable = true;
+      qemu.swtpm.enable = true;
+    };
+    spiceUSBRedirection.enable = true;
+  };
+
+  services = {
+    qemuGuest.enable = true;
+    spice-vdagentd.enable = true;
+  };
 
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.

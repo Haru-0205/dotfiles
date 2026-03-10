@@ -87,3 +87,4 @@ rivertile -view-padding 6 -outer-padding 6 &
 riverctl spawn fcitx5
 riverctl spawn "eww open riverpanel"
 swaybg -i ~/Pictures/Wallpapers/klefpj_dark_01_1610.png &
+riverctl spawn keepassxc

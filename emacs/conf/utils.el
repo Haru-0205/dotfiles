@@ -58,3 +58,10 @@
 	:ensure t
 	:config
 	(yas-global-mode 1))
+
+;; pdf-tools
+(use-package pdf-tools
+  :config
+  (add-hook 'pdf-view-mode-hook #'pdf-view-roll-minor-mode)
+  (add-hook 'pdf-view-mode-hook (lambda () (display-line-numbers-mode -1)))
+)

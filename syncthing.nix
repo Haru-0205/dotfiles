@@ -17,7 +17,7 @@
 					id = "klef-learning-cource";
           devices = [ "SC-53C" ];
 				};
-				"/home/kleha/knoledge/org" = {
+				"/home/kleha/knowledge/org" = {
 					id = "knowledge-org";
           devices = [ "SC-53C" ];
 				};
