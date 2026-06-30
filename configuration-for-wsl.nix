@@ -41,6 +41,10 @@
     "olm-3.2.16"
   ];
   environment.systemPackages = with pkgs; [
-    pantalaimon
+#    pantalaimon
   ];
+  programs = {
+    ssh.startAgent = true;
+    direnv.enable = true;
+  };
 }

@@ -1,7 +1,7 @@
 { pkgs, ...}:
 {
   	imports = [
-			./nvim
+#			./nvim
 			./emacs
 			./git.nix
 			./eza.nix
@@ -10,14 +10,15 @@
 			./direnv.nix
 			./starship.nix
 			./sway
-			./pantalaimon.nix
+#			./pantalaimon.nix
 		];
 		home.stateVersion = "23.11";
 		home.packages = with pkgs; [
 			github-cli
-      pantalaimon
+#      pantalaimon
       nixd
-			gnome-keyring
-			firefox
+      tinymist
+#			gnome-keyring
+#			firefox
 		];
 }
